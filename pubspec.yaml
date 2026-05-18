@@ -1,0 +1,47 @@
+name: rahalah_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_maps_flutter: ^2.17.0
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  http: ^1.1.0
+  firebase_core: ^4.6.0
+  firebase_auth: ^6.3.0
+  cloud_firestore: ^6.2.0
+  intl: ^0.20.2
+  flutter_bloc: ^9.1.1
+  shared_preferences: ^2.5.5
+  image_picker: ^1.2.2
+  cached_network_image: ^3.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app_icon.png"
+  adaptive_icon_foreground_scale: 0.65
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/map.png
