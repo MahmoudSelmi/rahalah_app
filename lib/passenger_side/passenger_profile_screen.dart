@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import '../welcome_screen.dart';
-import 'select_destination_screen.dart';
+import 'map_screen.dart'; // ← Updated import
 
 class PassengerProfileScreen extends StatefulWidget {
   const PassengerProfileScreen({super.key});
@@ -172,6 +172,29 @@ class _PassengerProfileScreenState extends State<PassengerProfileScreen>
     }
   }
 
+  /// ── الجديد: فتح MapScreen ← المدخل الأول للـ flow كله ──
+  void _startRideFlow() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, animation, __) => const MapScreenPro(),
+        transitionsBuilder: (_, animation, __, child) {
+          return SlideTransition(
+            position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                .animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeOutCubic,
+                  ),
+                ),
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 450),
+      ),
+    );
+  }
+
   void _showEditSheet(Map<String, dynamic> data) {
     _nameController.text = data['name']?.toString() ?? '';
     _phoneController.text = data['phone']?.toString() ?? '';
@@ -257,12 +280,7 @@ class _PassengerProfileScreenState extends State<PassengerProfileScreen>
                         totalTrips: _totalTrips,
                         myRating: _myRating,
                         onEditProfile: () => _showEditSheet(data),
-                        onTrips: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SelectDestinationScreen(),
-                          ),
-                        ),
+                        onRequestRide: _startRideFlow, // ← Updated
                       ),
                     ),
                     SliverToBoxAdapter(
@@ -278,6 +296,9 @@ class _PassengerProfileScreenState extends State<PassengerProfileScreen>
     );
   }
 }
+
+// ── All widget classes below are identical to the original ──
+// ── Only _MenuList.onTrips is renamed to onRequestRide ──
 
 class _TopBar extends StatelessWidget {
   final VoidCallback onBack;
@@ -667,13 +688,13 @@ class _MenuList extends StatelessWidget {
   final int totalTrips;
   final double myRating;
   final VoidCallback onEditProfile;
-  final VoidCallback onTrips;
+  final VoidCallback onRequestRide; // ← renamed from onTrips
 
   const _MenuList({
     required this.totalTrips,
     required this.myRating,
     required this.onEditProfile,
-    required this.onTrips,
+    required this.onRequestRide,
   });
 
   @override
@@ -690,14 +711,27 @@ class _MenuList extends StatelessWidget {
             onTap: onEditProfile,
           ),
           const SizedBox(height: 6),
+
+          // ── زر "اطلب رحلة" — يبدأ الـ full flow ──
+          _MenuItem(
+            icon: Icons.add_location_alt_rounded,
+            iconColor: const Color(0xFF10B981),
+            title: 'اطلب رحلة جديدة',
+            subtitle: 'حدد موقعك واختار وجهتك',
+            badge: 'ابدأ الآن',
+            badgeColor: const Color(0xFF10B981),
+            onTap: onRequestRide,
+          ),
+
+          const SizedBox(height: 6),
           _MenuItem(
             icon: Icons.history_rounded,
-            iconColor: const Color(0xFF10B981),
-            title: ' اطلب رحلة جديدة',
+            iconColor: const Color(0xFF3B82F6),
+            title: 'رحلاتي السابقة',
             subtitle: 'كل رحلاتك السابقة',
             badge: '$totalTrips رحلة',
-            badgeColor: const Color(0xFF10B981),
-            onTap: onTrips,
+            badgeColor: const Color(0xFF3B82F6),
+            onTap: () {},
           ),
           const SizedBox(height: 6),
           _MenuItem(

@@ -13,6 +13,7 @@ import 'package:flutter/material.dart'
         MaterialApp;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rahalah_app/core/driver_side/profile_screen.dart';
 import 'package:rahalah_app/welcome_screen.dart';
 
 import 'firebase_options.dart';
@@ -42,7 +43,7 @@ class RahalahApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const WelcomeScreen(),
+      home: const ProfileScreen(),
     );
   }
 }

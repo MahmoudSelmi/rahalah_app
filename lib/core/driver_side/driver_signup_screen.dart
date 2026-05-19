@@ -271,8 +271,9 @@ class _DriverSignupScreenState extends State<DriverSignupScreen> {
           cursorColor: const Color(0xFF3B82F6),
           validator: (value) {
             if (value == null || value.isEmpty) return "هذا الحقل مطلوب";
-            if (label == "الرقم القومي" && value.length != 14)
+            if (label == "الرقم القومي" && value.length != 14) {
               return "يجب إدخال 14 رقم بشكل صحيح";
+            }
             return null;
           },
           decoration: InputDecoration(
